@@ -16,15 +16,15 @@ const sessionConfig = {
   cookie: {
     maxAge: 60 * 60 * 1000,
     secure: false, // TYPICALLY THIS IS `TRUE` BUT FOR THIS PROJECT WE DON'T MIND IF THE REQUEST IS NOT SENT OVER HTTPS
-    httpOnly: true,
   },
+  httpOnly: true,
   resave: false,
   saveUninitialized: false,
-  store: knexSessionStore({
+  store: new knexSessionStore({
     knex: require('../database/connection.js'),
     tablename: 'sessions',
     sidfieldname: 'sid',
-    creattable: true,
+    createtable: true,
     clearInterval: 60 * 60 * 1000
   })
 }
