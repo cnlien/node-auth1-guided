@@ -2,6 +2,11 @@ const router = require('express').Router();
 const users = require('../users/users-model.js');
 
 router.post('/register', async (req, res, next) => {
+
+    // DON'T FORGET TO SEED THE DB AFTER THIS
+    // knex migrate:latest
+    // knex see:run
+
     let user = req.body;
 
     try {
@@ -17,6 +22,5 @@ router.post('/register', async (req, res, next) => {
         })
     }
 })
-
 
 module.exports = router
