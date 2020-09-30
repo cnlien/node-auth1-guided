@@ -25,9 +25,12 @@ router.post('/login', async (req, res, next) => {
     
     try {
         const  [user] = await users.findBy({username});
-        user && bcrypt.compareSync(password, user.password)
-            ? res.status(200).json({message: `welcome ${user.username}`})
-            : next({apiCode: 401, apiMessage: 'invalid username or password'})
+        if (user && bcrypt.compareSync(password, user.password)) {
+            req.session.user = user;
+            res.status(200).json({message: `welcome ${user.username}`})
+        } else {
+            next({apiCode: 401, apiMessage: 'invalid username or password'})
+        }
     }
     catch (err) {
         next({apiCode:500, apiMessage: 'error logging in', ...err})
