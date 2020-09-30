@@ -10,7 +10,11 @@ router.post('/register', async (req, res, next) => {
     }
     
     catch (err) {
-        
+        next({
+            apiCode: 500,
+            apiMessage: 'error registering',
+            ...err
+        })
     }
 })
 
