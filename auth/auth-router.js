@@ -20,4 +20,18 @@ router.post('/register', async (req, res, next) => {
     }
 })
 
+router.post('/login', async (req, res, next) => {
+    let { username, password } = req.body;
+    
+    try {
+        const  [user] = await users.findBy({username});
+        user && bcrypt.compareSync(password, user.password)
+            ? res.status(200).json({message: `welcome ${user.username}`})
+            : next({apiCode: 401, apiMessage: 'invalid username or password'})
+    }
+    catch (err) {
+        next({apiCode:500, apiMessage: 'error logging in', ...err})
+    }
+})
+
 module.exports = router
